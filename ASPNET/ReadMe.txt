@@ -32,4 +32,111 @@ and ensuring you can fetch other APIs trough the supergateway.
 
 12. Find all names that was corresponding to the old API names, and rename them to the ones you have created in order to create the container in Docker properly.
 
+13. Below you will se the docker-compose.yml, i have marked each instance that needs to be changed with // when you have created your own design.
+
+version: '3.4'
+
+networks:
+    //orderNetwork:    
+    //productNetwork:
+    //userNetwork:
+    gatewayNetwork:
+
+
+services:
+
+  aspnet.supergateway:
+    image: ${DOCKER_REGISTRY-}aspnetsupergateway
+    build:
+      context: .
+      dockerfile: Gateway/aspnet.SuperGateway/Dockerfile
+    networks:
+      - gatewayNetwork
+    depends_on:
+      //- aspnet.order.api
+      //- aspnet.product.api
+      //- aspnet.user.api
+    ports:
+      - "5000:8080"
+
+
+  //aspnet.order.api:
+    //image: ${DOCKER_REGISTRY-}aspnetorderapi
+    build:
+      context: .
+      //dockerfile: APIs/Order/ASPNET.Order.API/Dockerfile
+    networks:
+      //- productNetwork
+      - gatewayNetwork
+    depends_on:
+      //- aspnet.order.db
+    environment:
+      //- DB_HOST_ORDER=aspnet.order.db
+      //- DB_DATABASE_ORDER=ASPNETOrderDB
+      //- DB_USER_ORDER=sa
+      //- DB_MSSQL_SA_PASSWORD_ORDER=Pwd123!!1
+
+  //aspnet.product.api:
+    //image: ${DOCKER_REGISTRY-}aspnetproductapi
+    build:
+      context: .
+      //dockerfile: APIs/Product/ASPNET.Product.API/Dockerfile
+    networks:
+      //- productNetwork
+      - gatewayNetwork
+    depends_on:
+      //- aspnet.user.db
+    environment:
+      //- DB_HOST_PRODUCT=aspnet.product.db
+      //- DB_DATABASE_PRODUCT=ASPNETProductDB
+
+  //aspnet.user.api:
+    //image: ${DOCKER_REGISTRY-}aspnetuserapi
+    build:
+      context: .
+      //dockerfile: APIs/User/ASPNET.User.API/Dockerfile
+    networks:
+      //- userNetwork
+      - gatewayNetwork
+    depends_on:
+      //- aspnet.user.db
+    environment:
+      //- DB_HOST_USER=aspnet.user.db
+      //- DB_DATABASE_USER=ASPNETUserDB
+      //- DB_USER_USER=sa
+      //- DB_MSSQL_SA_PASSWORD_USER=Pwd123!!1
+      
+
+  //aspnet.order.db:
+    container_name: orderdb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      //- orderNetwork
+    ports:
+      - "7000:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pwd123!!1
+      - MSSQL_PID=Developer
+
+  //aspnet.product.db:
+    //container_name: productdb
+    image: mongo:latest
+    networks:
+      //- productNetwork
+    ports:
+      - "7002:27017"
+
+  //aspnet.user.db:
+    //container_name: userdb
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      //- userNetwork
+    ports:
+      - "7001:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pwd123!!1
+      - MSSQL_PID=Developer
+
 
