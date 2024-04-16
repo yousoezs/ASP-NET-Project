@@ -1,6 +1,8 @@
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
+// Use this class library to set up your Ocelot and gateway for Docker Checkout the docker-compose yaml and ocelot.json
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration

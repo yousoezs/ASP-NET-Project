@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace ASPNET.Domain.Commons.Abstraction
 {
+    /// <summary>
+    /// Use this project libray to reference in your APIs to create your own repository classes. In this case, you create your Repository class
+    /// and inherit this one, pass in your DBContext and implement the abstract methods.
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
     public abstract class GenericRepository<TContext> : IGenericRepository<IEntity<Guid>, Guid>
     {
         protected TContext dbContext;
