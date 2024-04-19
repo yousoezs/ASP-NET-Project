@@ -13,7 +13,7 @@ and ensuring you can fetch other APIs trough the supergateway.
 
 3. Checkout the APIs folder, each API has a a folder structure that is similiar, but note that each has 2 class libraries called BusinessLogic and DataAccess.
 
-4. DataAccess is used for only creating your Database context and models, they all use EntityFramework SQL Server and EntityFramework Tools nuget package.
+4. DataAccess is used for only creating your Database context and models, in these you can either download the Entityframework packages or MongoDB etc... But if you are using entity framework, do not forget to change global invaraiant mode to false.
 
 5. BusinessLogic is the class library where you will implement your logic for Repositories, and your CRUD Operations etc.
 
